@@ -36,7 +36,7 @@ def extract_questions(description):
 def sort_eps(episode):
     return episode['number']
 
-def create_csv(episode_list):
+def create_full_csv(episode_list):
     with open('output.csv', 'w') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow(['Episode Number', 'Episode Title', 'Question'])
@@ -45,9 +45,18 @@ def create_csv(episode_list):
             for question in questions:
                 csvwriter.writerow([episode['number'], episode['title'], question])
 
+def description_text(episode_list):
+    episode_descriptions = []
+    for episode in episode_list:
+        description = ' '.join(episode['questions'])
+        episode_descriptions.append(description)
+    print(' '.join(episode_descriptions))
+
+
 def main():
     episode_items_list = parse_episodes(get_data())
     episode_items_list.sort(key=sort_eps)
-    create_csv(episode_items_list)
+    #create_full_csv(episode_items_list)
+    description_text(episode_items_list)
 
 main()
